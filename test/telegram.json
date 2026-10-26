@@ -1,0 +1,5 @@
+{"name":"Alice","type":"personal_chat","id":1,"messages":[
+{"id":1,"type":"message","date":"2024-01-15T10:21:00","date_unixtime":"1705310460","from":"Alice","text":"Hi"},
+{"id":2,"type":"message","date":"2024-01-15T10:22:00","date_unixtime":"1705310520","from":"Bob","text":["see ",{"type":"link","text":"https://x.y"}]},
+{"id":3,"type":"message","date":"2024-01-15T10:23:00","date_unixtime":"1705310580","from":"Bob","photo":"photos/photo_1.jpg","text":""},
+{"id":4,"type":"service","date":"2024-01-15T10:24:00","date_unixtime":"1705310640","actor":"Alice","action":"pin_message","text":""}]}

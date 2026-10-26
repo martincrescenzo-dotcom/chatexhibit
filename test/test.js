@@ -1,0 +1,13 @@
+const P = require('../src/parsers.js'), fs = require('fs'), assert = require('assert');
+const r = f => fs.readFileSync(__dirname + '/' + f, 'utf8');
+const f = d => `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+let x;
+x = P.detect(r('android_fr.txt')); assert.equal(x.source,'WhatsApp'); assert(x.messages.length>=4); assert.equal(x.messages[2].text,"Oui ! J'ai hâte 😊\nJe ramène un dessert");
+x = P.detect(r('ios_us.txt')); assert.equal(x.source,'WhatsApp'); assert.equal(f(x.messages[1].date),'2024-3-15 21:42'); assert.equal(f(x.messages[3].date),'2024-3-20 0:05'); assert(x.messages[2].attachment);
+x = P.detect(r('line_ja.txt')); assert.equal(x.source,'LINE'); assert.equal(x.messages.length,4); assert.equal(x.messages[1].text,'明日は\nよろしく'); assert(x.messages[2].omitted); assert.equal(f(x.messages[3].date),'2024-1-16 9:00');
+x = P.detect(r('line_en.txt')); assert.equal(x.source,'LINE'); assert.equal(f(x.messages[1].date),'2024-1-15 15:05'); assert.equal(x.messages[1].sender,'Hanako');
+x = P.detect(r('kakao_mobile.txt')); assert.equal(x.source,'KakaoTalk'); assert.equal(x.messages.length,3); assert.equal(f(x.messages[0].date),'2024-1-15 15:20'); assert.equal(x.messages[1].text,'네 안녕하세요\n두번째 줄'); assert.equal(f(x.messages[2].date),'2024-1-16 0:05'); assert(x.messages[2].omitted);
+x = P.detect(r('kakao_pc.txt')); assert.equal(x.source,'KakaoTalk'); assert.equal(x.messages.length,3); assert.equal(f(x.messages[2].date),'2024-1-16 9:05'); assert.equal(x.messages[0].sender,'홍길동');
+x = P.detect(r('kakao.csv'),'kakao.csv'); assert.equal(x.source,'KakaoTalk'); assert.equal(x.messages[0].text,'안녕, 반가워');
+x = P.detect(r('telegram.json'),'result.json'); assert.equal(x.source,'Telegram'); assert.equal(x.messages[1].text,'see https://x.y'); assert.equal(x.messages[2].attachment,'photos/photo_1.jpg'); assert(x.messages[3].system);
+console.log('all parser tests pass');
