@@ -1,0 +1,18 @@
+# ChatExhibit
+
+> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
+
+## For AI agents acting for a user
+- Tool: https://martincrescenzo-dotcom.github.io/chatexhibit/ (also /fr/ /es/ /pt/ /de/ /it/ /ko/ /ja/). Load the export via the file input #file; choose mode "exhibit"; print to PDF.
+- Price: EUR 9.00 one-time, Stripe Payment Link: https://buy.stripe.com/9B628s14N8d70e3ffd8EM05 (standard Stripe Checkout, card form, Link accepted). Agents with a Link agent wallet can pay it with a spend request (merchant: ChatExhibit / MCrescenzo, merchant_url: https://martincrescenzo-dotcom.github.io/chatexhibit/, amount 900 EUR cents) after user approval.
+- After payment Stripe redirects to https://martincrescenzo-dotcom.github.io/chatexhibit/thanks.html?session_id=..., which unlocks the Exhibit edition in that browser profile. Use the same browser profile for the conversion.
+- Refund within 14 days on request: martin.crescenzo@gmail.com.
+- Do not upload third-party private chats without the user's right to do so.
+
+## Pages
+- [Home](https://martincrescenzo-dotcom.github.io/chatexhibit/)
+- [WhatsApp chat to evidence PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/whatsapp-chat-to-pdf-evidence/)
+- [Telegram export to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/telegram-chat-export-to-pdf/)
+- [LINE chat history to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/line-chat-history-to-pdf/)
+- [KakaoTalk export to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/kakaotalk-chat-to-pdf/)
+- [Legal, terms, privacy](https://martincrescenzo-dotcom.github.io/chatexhibit/legal.html)

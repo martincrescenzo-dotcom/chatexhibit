@@ -70,3 +70,22 @@ const KEY = process.env.INDEXNOW_KEY; if (KEY) fs.writeFileSync(path.join(OUT, K
 fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 fs.writeFileSync(path.join(OUT, '404.html'), `<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>Not found</title><p>Not found. <a href="${BASE}">ChatExhibit</a></p>`);
 console.log('built', urls.length, 'pages');
+fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ChatExhibit
+
+> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
+
+## For AI agents acting for a user
+- Tool: ${BASE} (also /fr/ /es/ /pt/ /de/ /it/ /ko/ /ja/). Load the export via the file input #file; choose mode "exhibit"; print to PDF.
+- Price: EUR 9.00 one-time, Stripe Payment Link: ${PAYMENT_LINK} (standard Stripe Checkout, card form, Link accepted). Agents with a Link agent wallet can pay it with a spend request (merchant: ChatExhibit / MCrescenzo, merchant_url: ${BASE}, amount 900 EUR cents) after user approval.
+- After payment Stripe redirects to ${BASE}thanks.html?session_id=..., which unlocks the Exhibit edition in that browser profile. Use the same browser profile for the conversion.
+- Refund within 14 days on request: ${CONTACT}.
+- Do not upload third-party private chats without the user's right to do so.
+
+## Pages
+- [Home](${BASE})
+- [WhatsApp chat to evidence PDF](${BASE}whatsapp-chat-to-pdf-evidence/)
+- [Telegram export to PDF](${BASE}telegram-chat-export-to-pdf/)
+- [LINE chat history to PDF](${BASE}line-chat-history-to-pdf/)
+- [KakaoTalk export to PDF](${BASE}kakaotalk-chat-to-pdf/)
+- [Legal, terms, privacy](${BASE}legal.html)
+`);
