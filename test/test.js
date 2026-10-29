@@ -11,3 +11,7 @@ x = P.detect(r('kakao_pc.txt')); assert.equal(x.source,'KakaoTalk'); assert.equa
 x = P.detect(r('kakao.csv'),'kakao.csv'); assert.equal(x.source,'KakaoTalk'); assert.equal(x.messages[0].text,'안녕, 반가워');
 x = P.detect(r('telegram.json'),'result.json'); assert.equal(x.source,'Telegram'); assert.equal(x.messages[1].text,'see https://x.y'); assert.equal(x.messages[2].attachment,'photos/photo_1.jpg'); assert(x.messages[3].system);
 console.log('all parser tests pass');
+x = P.detect(r('messenger.json'),'message_1.json'); assert.equal(x.source,'Messenger'); assert.equal(x.messages.length,3); assert.equal(x.messages[0].text,'Hi'); assert.equal(x.messages[1].text,'Café demain ?'); assert.equal(x.messages[1].sender,'José Ruiz'); assert(x.messages[2].attachment);
+x = P.detect(r('messenger.json'),'instagram-message_1.json'); assert.equal(x.source,'Instagram');
+x = P.detect(r('telegram.json'),'result.json'); assert.equal(x.source,'Telegram');
+console.log('meta tests pass');

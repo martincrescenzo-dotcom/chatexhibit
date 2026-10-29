@@ -10,6 +10,8 @@ const EXTRA = { // English long-tail pages
   'whatsapp-chat-to-pdf-evidence/': { title: 'WhatsApp chat to PDF for evidence: numbered transcript with SHA-256', desc: 'Export a WhatsApp chat (iPhone or Android, with media) and turn it into a numbered, exhibit-labelled transcript PDF with SHA-256 fingerprint. In your browser, nothing uploaded.', h1: 'WhatsApp chat to evidence PDF' },
   'telegram-chat-export-to-pdf/': { title: 'Telegram chat export to PDF: numbered transcript from result.json', desc: 'Convert a Telegram Desktop export (result.json or zip with photos) into a readable chat PDF or a numbered exhibit transcript with SHA-256. Free chat layout, in your browser.', h1: 'Telegram chat export (result.json) to PDF' },
   'line-chat-history-to-pdf/': { title: 'LINE chat history to PDF: numbered transcript for evidence', desc: 'Turn a LINE chat history .txt export into a clean PDF or a numbered exhibit transcript with SHA-256 fingerprint. Free chat layout, runs in your browser.', h1: 'LINE chat history to PDF' },
+  'messenger-chat-to-pdf/': { title: 'Facebook Messenger chat to PDF: numbered transcript from your Meta JSON export', desc: 'Turn a Messenger conversation from Download your information (message_1.json or the zip) into a readable chat PDF or a numbered exhibit transcript with SHA-256. Fixes accented characters. In your browser, nothing uploaded.', h1: 'Facebook Messenger chat to PDF' },
+  'instagram-dm-to-pdf/': { title: 'Instagram DMs to PDF: numbered transcript from your Instagram data download', desc: 'Convert Instagram direct messages from your data download (message_1.json or zip, JSON format) into a clean chat PDF or a numbered exhibit transcript with SHA-256. Runs in your browser.', h1: 'Instagram DM conversation to PDF' },
   'kakaotalk-chat-to-pdf/': { title: 'KakaoTalk chat export to PDF: numbered transcript for evidence', desc: 'Convert a KakaoTalk chat export (.txt from mobile or PC, .csv from Mac) into a clean PDF or a numbered exhibit transcript with SHA-256. Free chat layout, in your browser.', h1: 'KakaoTalk chat export to PDF' },
 };
 const alternates = Object.keys(L).map(l => `<link rel="alternate" hreflang="${l}" href="${BASE}${langPath(l)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${BASE}">`;
@@ -72,7 +74,7 @@ fs.writeFileSync(path.join(OUT, '404.html'), `<!doctype html><meta charset="utf-
 console.log('built', urls.length, 'pages');
 fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ChatExhibit
 
-> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
+> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv, Facebook Messenger / Instagram message_1.json from Meta's Download your information) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
 
 ## For AI agents acting for a user
 - Tool: ${BASE} (also /fr/ /es/ /pt/ /de/ /it/ /ko/ /ja/). Load the export via the file input #file; choose mode "exhibit"; print to PDF.
@@ -87,5 +89,7 @@ fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ChatExhibit
 - [Telegram export to PDF](${BASE}telegram-chat-export-to-pdf/)
 - [LINE chat history to PDF](${BASE}line-chat-history-to-pdf/)
 - [KakaoTalk export to PDF](${BASE}kakaotalk-chat-to-pdf/)
+- [Facebook Messenger to PDF](${BASE}messenger-chat-to-pdf/)
+- [Instagram DMs to PDF](${BASE}instagram-dm-to-pdf/)
 - [Legal, terms, privacy](${BASE}legal.html)
 `);

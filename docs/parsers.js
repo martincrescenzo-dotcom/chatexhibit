@@ -1,4 +1,4 @@
-// Chat export parsers: WhatsApp, Telegram (JSON), LINE (txt), KakaoTalk (txt/csv). Pure, no DOM.
+// Chat export parsers: WhatsApp, Telegram (JSON), Messenger/Instagram (JSON), LINE (txt), KakaoTalk (txt/csv). Pure, no DOM.
 (function (root) {
   const BIDI = /[\u200e\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g;
   const norm = t => t.replace(/\r\n?/g, '\n').replace(BIDI, '');
@@ -129,10 +129,32 @@
     return finish(out, 'KakaoTalk');
   }
 
+  // ---------- Facebook Messenger / Instagram (Meta "Download your information" JSON) ----------
+  const fixMeta = t => { if (typeof t !== 'string') return ''; try { return /[\u00c0-\u00ff][\u0080-\u00bf]/.test(t) ? decodeURIComponent(escape(t)) : t; } catch (e) { return t; } };
+  function parseMeta(data) {
+    const list = (data.messages || []).slice();
+    const out = [];
+    for (const t of list) {
+      const ts = t.timestamp_ms || t.timestamp; const date = new Date(+ts);
+      const sender = fixMeta(t.sender_name || t.senderName) || 'Unknown';
+      let text = fixMeta(t.content !== undefined ? t.content : t.text);
+      const m = msg(date, sender, text);
+      const media = [].concat(t.photos || [], t.videos || [], t.audio_files || [], t.files || [], t.gifs || [], t.media || [], t.sticker ? [t.sticker] : []);
+      if (media.length) { const u = media[0].uri || media[0].url; if (u) m.attachment = u; else m.omitted = true; }
+      if (t.share && t.share.link && !text.includes(t.share.link)) m.text = (text ? text + '\n' : '') + t.share.link;
+      if (t.is_unsent || t.isUnsent) { m.system = true; m.text = m.text || '(message unsent)'; }
+      out.push(m);
+    }
+    out.sort((a, b) => a.date - b.date);
+    const src = /instagram/i.test(data.thread_path || '') ? 'Instagram' : 'Messenger';
+    return finish(out, data.__src || src);
+  }
+  const isMeta = d => d && Array.isArray(d.messages) && d.messages.length && (d.messages[0].sender_name !== undefined || d.messages[0].senderName !== undefined) && (d.messages[0].timestamp_ms !== undefined || d.messages[0].timestamp !== undefined);
+
   function detect(text, name) {
     name = name || '';
     const t = norm(text).trimStart();
-    if (/\.json$/i.test(name) || t.startsWith('{')) return parseTelegram(t);
+    if (/\.json$/i.test(name) || t.startsWith('{')) { const d = JSON.parse(t); if (isMeta(d)) { if (/instagram/i.test(name)) d.__src = 'Instagram'; return parseMeta(d); } return parseTelegram(d); }
     const head = t.slice(0, 4000);
     if (/^\[LINE\]|^\uFEFF?\[LINE\]/m.test(head) || /^\d{1,2}:\d{2}\t/m.test(head)) return parseLine(t);
     if (/카카오톡 대화|KakaoTalk|^"?Date"?,"?User"?,"?Message"?|^-{5,} .*(\d{4}년|, \d{4}) .*-{5,}$|^\d{4}년 \d{1,2}월 \d{1,2}일 (오전|오후)/m.test(head)) return parseKakao(t);
@@ -141,6 +163,6 @@
     for (const f of [parseKakao, parseLine]) { const r = f(t); if (r.messages.length) return r; }
     return wa;
   }
-  const api = { detect, parseWhatsApp, parseTelegram, parseLine, parseKakao };
+  const api = { detect, parseMeta, parseWhatsApp, parseTelegram, parseLine, parseKakao };
   if (typeof module !== 'undefined') module.exports = api; else root.ChatParsers = api;
 })(this);

@@ -18,7 +18,7 @@ async function loadFile(f) {
   if (/\.zip$/i.test(f.name)) {
     const zip = await JSZip.loadAsync(buf);
     const files = Object.values(zip.files).filter(z => !z.dir);
-    const main = files.find(z => /result\.json$/i.test(z.name)) || files.find(z => /\.(txt|csv)$/i.test(z.name));
+    const main = files.find(z => /result\.json$/i.test(z.name)) || files.find(z => /message_1\.json$/i.test(z.name)) || files.find(z => /\.(txt|csv)$/i.test(z.name));
     if (!main) return alert(T.notChat);
     text = await main.async('string'); name = main.name;
     for (const z of files) if (/\.(jpe?g|png|gif|webp)$/i.test(z.name)) {

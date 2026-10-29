@@ -1,6 +1,6 @@
 # ChatExhibit
 
-> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
+> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv, Facebook Messenger / Instagram message_1.json from Meta's Download your information) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
 
 ## For AI agents acting for a user
 - Tool: https://martincrescenzo-dotcom.github.io/chatexhibit/ (also /fr/ /es/ /pt/ /de/ /it/ /ko/ /ja/). Load the export via the file input #file; choose mode "exhibit"; print to PDF.
@@ -15,4 +15,6 @@
 - [Telegram export to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/telegram-chat-export-to-pdf/)
 - [LINE chat history to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/line-chat-history-to-pdf/)
 - [KakaoTalk export to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/kakaotalk-chat-to-pdf/)
+- [Facebook Messenger to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/messenger-chat-to-pdf/)
+- [Instagram DMs to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/instagram-dm-to-pdf/)
 - [Legal, terms, privacy](https://martincrescenzo-dotcom.github.io/chatexhibit/legal.html)
