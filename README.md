@@ -8,6 +8,8 @@ Turn a chat export into a numbered, exhibit-labelled transcript PDF with the SHA
 - Telegram chat export (result.json) to PDF
 - LINE chat history (.txt, Japanese/English) to PDF
 - KakaoTalk chat export (.txt mobile/PC, .csv Mac) to PDF
+- Facebook Messenger / Instagram DMs (Meta JSON export) to PDF
+- Discord DMs or channels (DiscordChatExporter JSON/CSV) to PDF
 - Free: chat-style PDF, unlimited. Exhibit edition (numbered transcript, date/keyword/sender excerpts, no branding): €9 one-time.
 
 Languages: [English](https://martincrescenzo-dotcom.github.io/chatexhibit/) · [Français](https://martincrescenzo-dotcom.github.io/chatexhibit/fr/) · [Español](https://martincrescenzo-dotcom.github.io/chatexhibit/es/) · [Português](https://martincrescenzo-dotcom.github.io/chatexhibit/pt/) · [Deutsch](https://martincrescenzo-dotcom.github.io/chatexhibit/de/) · [Italiano](https://martincrescenzo-dotcom.github.io/chatexhibit/it/) · [한국어 카카오톡 대화 PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/ko/) · [日本語 LINEトーク履歴 PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/ja/)

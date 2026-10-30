@@ -15,3 +15,7 @@ x = P.detect(r('messenger.json'),'message_1.json'); assert.equal(x.source,'Messe
 x = P.detect(r('messenger.json'),'instagram-message_1.json'); assert.equal(x.source,'Instagram');
 x = P.detect(r('telegram.json'),'result.json'); assert.equal(x.source,'Telegram');
 console.log('meta tests pass');
+x = P.detect(r('discord.json'),'Direct Messages - alex [2].json'); assert.equal(x.source,'Discord'); assert.equal(x.messages.length,4); assert.equal(x.messages[0].sender,'Alex'); assert.equal(x.messages[1].text,'stop messaging me (edited)'); assert(x.messages[2].attachment); assert(x.messages[3].system);
+x = P.detect(r('discord.csv'),'alex.csv'); assert.equal(x.source,'Discord'); assert.equal(x.messages[0].text,'hey, you'); assert(x.messages[1].attachment);
+x = P.detect(r('telegram.json'),'result.json'); assert.equal(x.source,'Telegram'); x = P.detect(r('messenger.json'),'message_1.json'); assert.equal(x.source,'Messenger');
+console.log('discord tests pass');

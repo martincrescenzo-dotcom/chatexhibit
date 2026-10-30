@@ -151,10 +151,35 @@
   }
   const isMeta = d => d && Array.isArray(d.messages) && d.messages.length && (d.messages[0].sender_name !== undefined || d.messages[0].senderName !== undefined) && (d.messages[0].timestamp_ms !== undefined || d.messages[0].timestamp !== undefined);
 
+  // ---------- Discord (DiscordChatExporter JSON / CSV) ----------
+  function parseDiscord(data) {
+    const out = [];
+    for (const t of data.messages) {
+      const a = t.author || {}; const sender = a.nickname || a.name || 'Unknown';
+      const sys = t.type && !/^(Default|Reply)$/.test(t.type);
+      const m = msg(new Date(t.timestamp), sys ? null : sender, t.content || '');
+      if (t.timestampEdited) m.text += ' (edited)';
+      const at = t.attachments || [];
+      if (at.length) { const u = at[0].url || at[0].fileName; if (u) m.attachment = u; else m.omitted = true; if (!m.text) m.text = at.map(x => x.fileName || '').join(', '); }
+      if (t.embeds && t.embeds.length && !m.text) m.text = t.embeds.map(x => x.url || x.title || '').filter(Boolean).join('\n');
+      if (t.stickers && t.stickers.length && !m.text) { m.text = '(sticker)'; m.omitted = true; }
+      out.push(m);
+    }
+    out.sort((x, y) => x.date - y.date);
+    return finish(out, 'Discord');
+  }
+  const isDiscord = d => d && Array.isArray(d.messages) && (d.channel || d.guild || (d.messages[0] && d.messages[0].author && d.messages[0].timestamp !== undefined));
+  function parseDiscordCsv(text) {
+    const out = [];
+    for (const r of csvRows(text).slice(1)) { if (r.length < 4) continue; const m = msg(new Date(r[2]), r[1] || null, r[3]); if (r[4]) { m.attachment = r[4].split(',')[0].trim(); if (!m.text) m.text = r[4]; } out.push(m); }
+    return finish(out, 'Discord');
+  }
+
   function detect(text, name) {
     name = name || '';
     const t = norm(text).trimStart();
-    if (/\.json$/i.test(name) || t.startsWith('{')) { const d = JSON.parse(t); if (isMeta(d)) { if (/instagram/i.test(name)) d.__src = 'Instagram'; return parseMeta(d); } return parseTelegram(d); }
+    if (/\.json$/i.test(name) || t.startsWith('{')) { const d = JSON.parse(t); if (isMeta(d)) { if (/instagram/i.test(name)) d.__src = 'Instagram'; return parseMeta(d); } if (isDiscord(d)) return parseDiscord(d); return parseTelegram(d); }
+    if (/^"?AuthorID"?,"?Author"?,"?Date"?,"?Content"?/i.test(t)) return parseDiscordCsv(t);
     const head = t.slice(0, 4000);
     if (/^\[LINE\]|^\uFEFF?\[LINE\]/m.test(head) || /^\d{1,2}:\d{2}\t/m.test(head)) return parseLine(t);
     if (/카카오톡 대화|KakaoTalk|^"?Date"?,"?User"?,"?Message"?|^-{5,} .*(\d{4}년|, \d{4}) .*-{5,}$|^\d{4}년 \d{1,2}월 \d{1,2}일 (오전|오후)/m.test(head)) return parseKakao(t);
@@ -163,6 +188,6 @@
     for (const f of [parseKakao, parseLine]) { const r = f(t); if (r.messages.length) return r; }
     return wa;
   }
-  const api = { detect, parseMeta, parseWhatsApp, parseTelegram, parseLine, parseKakao };
+  const api = { detect, parseDiscord, parseMeta, parseWhatsApp, parseTelegram, parseLine, parseKakao };
   if (typeof module !== 'undefined') module.exports = api; else root.ChatParsers = api;
 })(this);

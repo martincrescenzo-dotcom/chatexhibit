@@ -1,0 +1,5 @@
+{"guild":{"id":"1","name":"Direct Messages"},"channel":{"id":"2","type":"DirectTextChat","name":"alex"},"messages":[
+{"id":"10","type":"Default","timestamp":"2024-03-15T21:42:00+00:00","timestampEdited":null,"content":"hey","author":{"id":"5","name":"alex","nickname":"Alex"},"attachments":[],"embeds":[],"stickers":[]},
+{"id":"11","type":"Default","timestamp":"2024-03-15T21:45:00+00:00","timestampEdited":"2024-03-15T21:46:00+00:00","content":"stop messaging me","author":{"id":"6","name":"sam","nickname":"sam"},"attachments":[],"embeds":[],"stickers":[]},
+{"id":"12","type":"Default","timestamp":"2024-03-16T08:00:00+00:00","content":"","author":{"id":"5","name":"alex"},"attachments":[{"id":"9","url":"https://cdn.discordapp.com/x/screenshot.png","fileName":"screenshot.png"}],"embeds":[],"stickers":[]},
+{"id":"13","type":"ChannelPinnedMessage","timestamp":"2024-03-16T09:00:00+00:00","content":"Pinned a message.","author":{"id":"5","name":"alex"},"attachments":[]}]}
