@@ -13,6 +13,7 @@ const EXTRA = { // English long-tail pages
   'messenger-chat-to-pdf/': { title: 'Facebook Messenger chat to PDF: numbered transcript from your Meta JSON export', desc: 'Turn a Messenger conversation from Download your information (message_1.json or the zip) into a readable chat PDF or a numbered exhibit transcript with SHA-256. Fixes accented characters. In your browser, nothing uploaded.', h1: 'Facebook Messenger chat to PDF' },
   'instagram-dm-to-pdf/': { title: 'Instagram DMs to PDF: numbered transcript from your Instagram data download', desc: 'Convert Instagram direct messages from your data download (message_1.json or zip, JSON format) into a clean chat PDF or a numbered exhibit transcript with SHA-256. Runs in your browser.', h1: 'Instagram DM conversation to PDF' },
   'discord-chat-to-pdf/': { title: 'Discord chat to PDF for evidence: numbered transcript from a DiscordChatExporter export', desc: 'Turn a Discord DM or channel exported with DiscordChatExporter (JSON or CSV) into a clean chat PDF or a numbered exhibit transcript with SHA-256, for harassment reports, moderation appeals or court. In your browser, nothing uploaded.', h1: 'Discord DM or channel to PDF', lead: 'Load a Discord DM or channel export (DiscordChatExporter JSON or CSV). Get a readable chat PDF for free, or a numbered exhibit transcript with the SHA-256 of the export file for a harassment report, a platform appeal, HR or court. Everything runs in your browser.' },
+  'google-chat-to-pdf/': { title: 'Google Chat to PDF: numbered transcript from your Google Takeout export', desc: 'Turn a Google Chat DM or space from Google Takeout (messages.json or the zip) into a clean chat PDF or a numbered exhibit transcript with SHA-256, for HR, disputes or court. In your browser, nothing uploaded.', h1: 'Google Chat (Takeout) to PDF', lead: 'Load a Google Chat conversation exported with Google Takeout (messages.json or the zip). Get a readable chat PDF for free, or a numbered exhibit transcript with the SHA-256 of the export file for HR, an employment dispute or court. Everything runs in your browser.' },
   'kakaotalk-chat-to-pdf/': { title: 'KakaoTalk chat export to PDF: numbered transcript for evidence', desc: 'Convert a KakaoTalk chat export (.txt from mobile or PC, .csv from Mac) into a clean PDF or a numbered exhibit transcript with SHA-256. Free chat layout, in your browser.', h1: 'KakaoTalk chat export to PDF' },
 };
 const alternates = Object.keys(L).map(l => `<link rel="alternate" hreflang="${l}" href="${BASE}${langPath(l)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${BASE}">`;
@@ -48,7 +49,7 @@ function page(lang, rel, over) {
 <section class="features noprint">${H.feats.map(([t, d]) => `<div><h2 style="font-size:17px;margin:0 0 6px">${e(t)}</h2><p style="margin:0">${e(d)}</p></div>`).join('')}</section>
 <section class="card faq noprint" style="margin-top:16px">${H.faq.map(([q, a]) => `<h3>${e(q)}</h3><p>${e(a)}</p>`).join('')}</section>
 </main>
-<footer class="noprint"><p>${more}</p><p>ChatExhibit · <a href="${up}legal.html">Legal notice / Mentions légales / Terms / Privacy</a> · Not affiliated with WhatsApp, Meta, Telegram, LINE, Kakao or Discord.</p></footer>
+<footer class="noprint"><p>${more}</p><p>ChatExhibit · <a href="${up}legal.html">Legal notice / Mentions légales / Terms / Privacy</a> · Not affiliated with WhatsApp, Meta, Telegram, LINE, Kakao, Discord or Google.</p></footer>
 <script>window.I18N=${JSON.stringify(C.ui)}</script><script src="${up}jszip.min.js"></script><script src="${up}parsers.js"></script><script src="${up}app.js"></script>
 </body></html>`;
 }
@@ -75,7 +76,7 @@ fs.writeFileSync(path.join(OUT, '404.html'), `<!doctype html><meta charset="utf-
 console.log('built', urls.length, 'pages');
 fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ChatExhibit
 
-> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv, Facebook Messenger / Instagram message_1.json from Meta's Download your information, Discord JSON/CSV from DiscordChatExporter) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
+> Browser tool that turns a chat export (WhatsApp .txt/.zip, Telegram result.json, LINE .txt, KakaoTalk .txt/.csv, Facebook Messenger / Instagram message_1.json from Meta's Download your information, Discord JSON/CSV from DiscordChatExporter, Google Chat messages.json from Google Takeout) into a PDF. Free: chat-style PDF. Paid (Exhibit edition, EUR 9 one-time): numbered transcript with exhibit label, SHA-256 of the export file, date/keyword/sender excerpts with visible gaps, no branding. Processing is local in the browser; nothing is uploaded. Not legal advice, not a certification.
 
 ## For AI agents acting for a user
 - Tool: ${BASE} (also /fr/ /es/ /pt/ /de/ /it/ /ko/ /ja/). Load the export via the file input #file; choose mode "exhibit"; print to PDF.
@@ -93,5 +94,6 @@ fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ChatExhibit
 - [Facebook Messenger to PDF](${BASE}messenger-chat-to-pdf/)
 - [Instagram DMs to PDF](${BASE}instagram-dm-to-pdf/)
 - [Discord chat to PDF](${BASE}discord-chat-to-pdf/)
+- [Google Chat to PDF](${BASE}google-chat-to-pdf/)
 - [Legal, terms, privacy](${BASE}legal.html)
 `);

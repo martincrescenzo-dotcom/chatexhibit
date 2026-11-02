@@ -19,3 +19,6 @@ x = P.detect(r('discord.json'),'Direct Messages - alex [2].json'); assert.equal(
 x = P.detect(r('discord.csv'),'alex.csv'); assert.equal(x.source,'Discord'); assert.equal(x.messages[0].text,'hey, you'); assert(x.messages[1].attachment);
 x = P.detect(r('telegram.json'),'result.json'); assert.equal(x.source,'Telegram'); x = P.detect(r('messenger.json'),'message_1.json'); assert.equal(x.source,'Messenger');
 console.log('discord tests pass');
+x = P.detect(r('gchat.json'),'messages.json'); assert.equal(x.source,'Google Chat'); assert.equal(x.messages.length,3); assert.equal(x.messages[0].sender,'Alex Martin'); assert.equal(x.messages[1].attachment,'File-invoice.pdf'); assert.equal(x.messages[0].date.toISOString(),'2023-01-09T15:04:05.000Z');
+x = P.detect(r('discord.json'),'d.json'); assert.equal(x.source,'Discord'); x = P.detect(r('messenger.json'),'message_1.json'); assert.equal(x.source,'Messenger');
+console.log('gchat tests pass');
