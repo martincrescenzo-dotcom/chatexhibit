@@ -1,4 +1,4 @@
-// Chat export parsers: WhatsApp, Telegram (JSON), Messenger/Instagram (JSON), Discord, Google Chat (Takeout JSON), LINE (txt), KakaoTalk (txt/csv). Pure, no DOM.
+// Chat export parsers: WhatsApp, Telegram (JSON), Messenger/Instagram (JSON), Discord, Google Chat (Takeout JSON), Slack (workspace export JSON), LINE (txt), KakaoTalk (txt/csv). Pure, no DOM.
 (function (root) {
   const BIDI = /[\u200e\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g;
   const norm = t => t.replace(/\r\n?/g, '\n').replace(BIDI, '');
@@ -195,10 +195,60 @@
   }
   const isGChat = d => d && Array.isArray(d.messages) && d.messages.length && d.messages[0].creator !== undefined && (d.messages[0].created_date !== undefined || d.messages[0].created_time !== undefined);
 
+
+  // ---------- Slack (workspace / channel export JSON) ----------
+  function slackUser(u) {
+    if (!u) return null;
+    if (typeof u === 'string') return u;
+    return (u.profile && (u.profile.display_name || u.profile.real_name)) || u.real_name || u.name || u.id || null;
+  }
+  function slackUsersMap(users) {
+    const map = Object.create(null);
+    if (!users) return map;
+    const arr = Array.isArray(users) ? users : Object.values(users);
+    for (const u of arr) if (u && u.id) map[u.id] = u;
+    return map;
+  }
+  const SLACK_SYS = /^(channel_join|channel_leave|channel_topic|channel_purpose|channel_name|channel_archive|channel_unarchive|pinned_item|unpinned_item|reminder_add|bot_add|bot_remove|group_join|group_leave)$/;
+  function parseSlack(data) {
+    let list, map = Object.create(null);
+    if (Array.isArray(data)) list = data;
+    else { list = data.messages || []; map = slackUsersMap(data.users); }
+    const out = [];
+    for (const t of list) {
+      if (t.type && t.type !== 'message') continue;
+      const date = new Date(parseFloat(t.ts) * 1000);
+      const sub = t.subtype || '';
+      const sys = SLACK_SYS.test(sub);
+      let sender = slackUser(map[t.user]) || t.user || t.username || (t.bot_profile && t.bot_profile.name) || (t.bot_id ? 'Bot' : null);
+      let text = t.text || '';
+      const pref = t.__channel ? `[#${t.__channel}] ` : '';
+      if (sys) { out.push(msg(date, null, (pref + (text || sub.replace(/_/g, ' '))).trim())); continue; }
+      const m = msg(date, sender || 'Unknown', pref + text);
+      const files = t.files || [];
+      if (files.length) {
+        m.attachment = files[0].name || files[0].title || files[0].id;
+        if (!(text || '').trim()) m.text = pref + (m.attachment || '(file)');
+      }
+      if (!(m.text || '').replace(/^\[#[^\]]+\]\s*/, '').trim() && t.attachments && t.attachments.length)
+        m.text = pref + t.attachments.map(a => a.title || a.fallback || a.text || '').filter(Boolean).join('\n');
+      out.push(m);
+    }
+    out.sort((a, b) => a.date - b.date);
+    return finish(out, 'Slack');
+  }
+  const isSlackMsg = m => m && m.ts !== undefined && (m.user !== undefined || m.bot_id !== undefined || m.subtype !== undefined || m.type === 'message') && m.timestamp_ms === undefined && m.sender_name === undefined && m.author === undefined && m.creator === undefined && m.from === undefined;
+  const isSlack = d => {
+    if (Array.isArray(d)) return d.length > 0 && isSlackMsg(d[0]);
+    if (!d || !Array.isArray(d.messages)) return false;
+    if (d.messages.length && isSlackMsg(d.messages[0])) return true;
+    return Array.isArray(d.users) && d.messages.length === 0;
+  };
+
   function detect(text, name) {
     name = name || '';
     const t = norm(text).trimStart();
-    if (/\.json$/i.test(name) || t.startsWith('{')) { const d = JSON.parse(t); if (isMeta(d)) { if (/instagram/i.test(name)) d.__src = 'Instagram'; return parseMeta(d); } if (isDiscord(d)) return parseDiscord(d); if (isGChat(d)) return parseGChat(d); return parseTelegram(d); }
+    if (/\.json$/i.test(name) || t.startsWith('{')) { const d = JSON.parse(t); if (isSlack(d)) return parseSlack(d); if (isMeta(d)) { if (/instagram/i.test(name)) d.__src = 'Instagram'; return parseMeta(d); } if (isDiscord(d)) return parseDiscord(d); if (isGChat(d)) return parseGChat(d); return parseTelegram(d); }
     if (/^"?AuthorID"?,"?Author"?,"?Date"?,"?Content"?/i.test(t)) return parseDiscordCsv(t);
     const head = t.slice(0, 4000);
     if (/^\[LINE\]|^\uFEFF?\[LINE\]/m.test(head) || /^\d{1,2}:\d{2}\t/m.test(head)) return parseLine(t);
@@ -208,6 +258,6 @@
     for (const f of [parseKakao, parseLine]) { const r = f(t); if (r.messages.length) return r; }
     return wa;
   }
-  const api = { detect, parseGChat, parseDiscord, parseMeta, parseWhatsApp, parseTelegram, parseLine, parseKakao };
+  const api = { detect, parseSlack, parseGChat, parseDiscord, parseMeta, parseWhatsApp, parseTelegram, parseLine, parseKakao };
   if (typeof module !== 'undefined') module.exports = api; else root.ChatParsers = api;
 })(this);

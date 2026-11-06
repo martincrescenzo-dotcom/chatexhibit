@@ -22,3 +22,8 @@ console.log('discord tests pass');
 x = P.detect(r('gchat.json'),'messages.json'); assert.equal(x.source,'Google Chat'); assert.equal(x.messages.length,3); assert.equal(x.messages[0].sender,'Alex Martin'); assert.equal(x.messages[1].attachment,'File-invoice.pdf'); assert.equal(x.messages[0].date.toISOString(),'2023-01-09T15:04:05.000Z');
 x = P.detect(r('discord.json'),'d.json'); assert.equal(x.source,'Discord'); x = P.detect(r('messenger.json'),'message_1.json'); assert.equal(x.source,'Messenger');
 console.log('gchat tests pass');
+
+x = P.detect(r('slack.json'),'general/2024-03-15.json'); assert.equal(x.source,'Slack'); assert.equal(x.messages.length,4); assert.equal(x.messages[0].sender,'U001'); assert.equal(x.messages[0].text,'Can you confirm the Q3 bonus figures?'); assert.equal(x.messages[2].attachment,'bonus-sheet.pdf'); assert(x.messages[3].system); assert.equal(x.messages[0].date.toISOString(),'2024-03-15T19:02:00.000Z');
+x = P.detect(r('slack_users.json'),'slack-export.json'); assert.equal(x.source,'Slack'); assert.equal(x.messages.length,3); assert.equal(x.messages[0].sender,'Alex'); assert.equal(x.messages[1].sender,'Sam'); assert(x.messages[2].system);
+x = P.detect(r('gchat.json'),'messages.json'); assert.equal(x.source,'Google Chat'); x = P.detect(r('discord.json'),'d.json'); assert.equal(x.source,'Discord');
+console.log('slack tests pass');

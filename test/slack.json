@@ -1,0 +1,6 @@
+[
+  {"type":"message","user":"U001","text":"Can you confirm the Q3 bonus figures?","ts":"1710529320.000100","client_msg_id":"a1"},
+  {"type":"message","user":"U002","text":"Yes — €12,400 was approved yesterday.","ts":"1710529500.000200","client_msg_id":"a2"},
+  {"type":"message","user":"U001","text":"","ts":"1710615600.000300","files":[{"id":"F1","name":"bonus-sheet.pdf","title":"bonus-sheet.pdf"}],"client_msg_id":"a3"},
+  {"type":"message","subtype":"channel_join","user":"U003","text":"<@U003> has joined the channel","ts":"1710619200.000400"}
+]

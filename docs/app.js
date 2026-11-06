@@ -1,5 +1,5 @@
 // ChatExhibit app. Everything runs locally in the browser.
-const CONFIG = { PAYMENT_LINK: 'https://buy.stripe.com/9B628s14N8d70e3ffd8EM05', PREVIEW_ROWS: 15, PRICE: '€9' };
+const CONFIG = { PAYMENT_LINK: 'https://buy.stripe.com/9B628s14N8d70e3ffd8E', PREVIEW_ROWS: 15, PRICE: '€9' };
 const T = window.I18N; const LANG = document.documentElement.lang;
 const $ = s => document.querySelector(s);
 let chat = null, media = new Map(), file = { name: '', size: 0, sha: '' };
@@ -18,9 +18,29 @@ async function loadFile(f) {
   if (/\.zip$/i.test(f.name)) {
     const zip = await JSZip.loadAsync(buf);
     const files = Object.values(zip.files).filter(z => !z.dir);
-    const main = files.find(z => /result\.json$/i.test(z.name)) || files.find(z => /message_1\.json$/i.test(z.name)) || files.find(z => /messages\.json$/i.test(z.name)) || files.find(z => /\.json$/i.test(z.name)) || files.find(z => /\.(txt|csv)$/i.test(z.name));
-    if (!main) return alert(T.notChat);
-    text = await main.async('string'); name = main.name;
+    const slackMeta = /(^|\/)(users|channels|groups|dms|mpims|lists|file_conversations|canvases|huddle_transcripts|integration_logs)\.json$/i;
+    const usersZ = files.find(z => /(^|\/)users\.json$/i.test(z.name));
+    const slackJsons = files.filter(z => /\.json$/i.test(z.name) && !slackMeta.test(z.name));
+    if (usersZ && slackJsons.length) {
+      let users; try { users = JSON.parse(await usersZ.async('string')); } catch (e) { users = []; }
+      const messages = [];
+      const chans = new Set();
+      for (const z of slackJsons) {
+        const parts = z.name.replace(/\\/g, '/').split('/');
+        const chan = parts.length >= 2 ? parts[parts.length - 2] : '';
+        let arr; try { arr = JSON.parse(await z.async('string')); } catch (e) { continue; }
+        if (!Array.isArray(arr)) continue;
+        if (chan) chans.add(chan);
+        for (const m of arr) { if (chan) m.__channel = chan; messages.push(m); }
+      }
+      if (!messages.length) return alert(T.notChat);
+      if (chans.size < 2) messages.forEach(m => { delete m.__channel; });
+      text = JSON.stringify({ users, messages }); name = 'slack-export.json';
+    } else {
+      const main = files.find(z => /result\.json$/i.test(z.name)) || files.find(z => /message_1\.json$/i.test(z.name)) || files.find(z => /messages\.json$/i.test(z.name)) || files.find(z => /\.json$/i.test(z.name) && !slackMeta.test(z.name)) || files.find(z => /\.json$/i.test(z.name)) || files.find(z => /\.(txt|csv)$/i.test(z.name));
+      if (!main) return alert(T.notChat);
+      text = await main.async('string'); name = main.name;
+    }
     for (const z of files) if (/\.(jpe?g|png|gif|webp)$/i.test(z.name)) {
       const b = await z.async('blob'); const u = URL.createObjectURL(b);
       media.set(z.name.split('/').pop(), u); media.set(z.name.replace(/^[^/]*\//, ''), u);
