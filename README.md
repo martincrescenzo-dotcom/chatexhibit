@@ -12,6 +12,7 @@ Turn a chat export into a numbered, exhibit-labelled transcript PDF with the SHA
 - Discord DMs or channels (DiscordChatExporter JSON/CSV) to PDF
 - Google Chat (Google Takeout messages.json) to PDF
 - Slack workspace / channel export (JSON or zip) to PDF
+- French evidence pages: [WhatsApp PDF preuve](https://martincrescenzo-dotcom.github.io/chatexhibit/whatsapp-conversation-pdf-preuve/), [exporter WhatsApp PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/exporter-conversation-whatsapp-pdf/), [Telegram PDF preuve](https://martincrescenzo-dotcom.github.io/chatexhibit/telegram-export-pdf-preuve/)
 - Free: chat-style PDF, unlimited. Exhibit edition (numbered transcript, date/keyword/sender excerpts, no branding): €9 one-time.
 
 Languages: [English](https://martincrescenzo-dotcom.github.io/chatexhibit/) · [Français](https://martincrescenzo-dotcom.github.io/chatexhibit/fr/) · [Español](https://martincrescenzo-dotcom.github.io/chatexhibit/es/) · [Português](https://martincrescenzo-dotcom.github.io/chatexhibit/pt/) · [Deutsch](https://martincrescenzo-dotcom.github.io/chatexhibit/de/) · [Italiano](https://martincrescenzo-dotcom.github.io/chatexhibit/it/) · [한국어 카카오톡 대화 PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/ko/) · [日本語 LINEトーク履歴 PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/ja/)

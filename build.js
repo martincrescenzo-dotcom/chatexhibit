@@ -16,6 +16,9 @@ const EXTRA = { // English long-tail pages
   'google-chat-to-pdf/': { title: 'Google Chat to PDF: numbered transcript from your Google Takeout export', desc: 'Turn a Google Chat DM or space from Google Takeout (messages.json or the zip) into a clean chat PDF or a numbered exhibit transcript with SHA-256, for HR, disputes or court. In your browser, nothing uploaded.', h1: 'Google Chat (Takeout) to PDF', lead: 'Load a Google Chat conversation exported with Google Takeout (messages.json or the zip). Get a readable chat PDF for free, or a numbered exhibit transcript with the SHA-256 of the export file for HR, an employment dispute or court. Everything runs in your browser.' },
   'slack-chat-to-pdf/': { title: 'Slack chat to PDF for HR and workplace evidence: numbered transcript from a Slack export', desc: 'Turn a Slack workspace or channel export (JSON or zip from Slack Export data) into a clean chat PDF or a numbered exhibit transcript with SHA-256, for HR investigations, employment disputes or court. In your browser, nothing uploaded.', h1: 'Slack workspace export to PDF', lead: 'Load a Slack channel or workspace export (a channel .json file or the official Export data zip). Get a readable chat PDF for free, or a numbered exhibit transcript with the SHA-256 of the export file for HR, a workplace dispute or court. Everything runs in your browser.' },
   'kakaotalk-chat-to-pdf/': { title: 'KakaoTalk chat export to PDF: numbered transcript for evidence', desc: 'Convert a KakaoTalk chat export (.txt from mobile or PC, .csv from Mac) into a clean PDF or a numbered exhibit transcript with SHA-256. Free chat layout, in your browser.', h1: 'KakaoTalk chat export to PDF' },
+  'whatsapp-conversation-pdf-preuve/': { lang: 'fr', title: 'Conversation WhatsApp en PDF pour preuve : retranscription numérotée SHA-256', desc: 'Exportez une conversation WhatsApp (iPhone ou Android, avec médias) et obtenez un PDF de retranscription numérotée avec numéro de pièce et empreinte SHA-256. Dans le navigateur, rien n’est envoyé.', h1: 'Conversation WhatsApp en PDF pour preuve', lead: 'Retranscription numérotée, numéro de pièce, empreinte SHA-256 de l’export et extraits clairement signalés. Pour litiges locataire/propriétaire, employeur, vendeur, assurance ou avocat. WhatsApp, Telegram, LINE, KakaoTalk et autres exports supportés.' },
+  'exporter-conversation-whatsapp-pdf/': { lang: 'fr', title: 'Exporter une conversation WhatsApp en PDF (pièce numérotée)', desc: 'Transformez un export WhatsApp (.txt ou .zip) en PDF lisible ou en pièce d’exhibit numérotée avec SHA-256. Gratuit pour le PDF conversation ; édition Pièce 9 € une fois. 100 % dans votre navigateur.', h1: 'Exporter une conversation WhatsApp en PDF', lead: 'Chargez l’export WhatsApp (avec ou sans médias). PDF style conversation gratuit, ou retranscription numérotée avec empreinte SHA-256 pour un dossier, un avocat ou un assureur.' },
+  'telegram-export-pdf-preuve/': { lang: 'fr', title: 'Export Telegram en PDF pour preuve (result.json)', desc: 'Convertissez un export Telegram Desktop (result.json ou zip) en PDF de conversation ou en retranscription numérotée avec SHA-256 pour litige ou avocat. Dans votre navigateur, rien n’est envoyé.', h1: 'Export Telegram en PDF pour preuve', lead: 'Chargez result.json (ou le zip d’export). PDF gratuit style chat, ou pièce numérotée avec empreinte SHA-256 de l’export.' },
 };
 const alternates = Object.keys(L).map(l => `<link rel="alternate" hreflang="${l}" href="${BASE}${langPath(l)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${BASE}">`;
 function page(lang, rel, over) {
@@ -56,7 +59,7 @@ function page(lang, rel, over) {
 }
 const urls = [];
 for (const l of Object.keys(L)) { const rel = langPath(l); fs.mkdirSync(path.join(OUT, rel), { recursive: true }); fs.writeFileSync(path.join(OUT, rel, 'index.html'), page(l, rel)); urls.push([rel, true]); }
-for (const [rel, o] of Object.entries(EXTRA)) { fs.mkdirSync(path.join(OUT, rel), { recursive: true }); fs.writeFileSync(path.join(OUT, rel, 'index.html'), page('en', rel, o)); urls.push([rel, false]); }
+for (const [rel, o] of Object.entries(EXTRA)) { fs.mkdirSync(path.join(OUT, rel), { recursive: true }); fs.writeFileSync(path.join(OUT, rel, 'index.html'), page(o.lang || 'en', rel, o)); urls.push([rel, false]); }
 for (const f of ['parsers.js', 'style.css', 'jszip.min.js']) fs.copyFileSync(path.join(__dirname, 'src', f), path.join(OUT, f));
 fs.writeFileSync(path.join(OUT, 'app.js'), fs.readFileSync(path.join(__dirname, 'src/app.js'), 'utf8').replace('__PAYMENT_LINK__', PAYMENT_LINK));
 fs.writeFileSync(path.join(OUT, 'favicon.svg'), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#14213d"/><text x="16" y="22" font-size="14" font-family="Arial" font-weight="700" fill="#e09f1f" text-anchor="middle">CX</text></svg>');
@@ -97,5 +100,8 @@ fs.writeFileSync(path.join(OUT, 'llms.txt'), `# ChatExhibit
 - [Discord chat to PDF](${BASE}discord-chat-to-pdf/)
 - [Google Chat to PDF](${BASE}google-chat-to-pdf/)
 - [Slack chat to PDF](${BASE}slack-chat-to-pdf/)
+- [Conversation WhatsApp en PDF pour preuve](${BASE}whatsapp-conversation-pdf-preuve/)
+- [Exporter une conversation WhatsApp en PDF](${BASE}exporter-conversation-whatsapp-pdf/)
+- [Export Telegram en PDF pour preuve](${BASE}telegram-export-pdf-preuve/)
 - [Legal, terms, privacy](${BASE}legal.html)
 `);

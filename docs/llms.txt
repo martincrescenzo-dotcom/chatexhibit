@@ -20,4 +20,7 @@
 - [Discord chat to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/discord-chat-to-pdf/)
 - [Google Chat to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/google-chat-to-pdf/)
 - [Slack chat to PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/slack-chat-to-pdf/)
+- [Conversation WhatsApp en PDF pour preuve](https://martincrescenzo-dotcom.github.io/chatexhibit/whatsapp-conversation-pdf-preuve/)
+- [Exporter une conversation WhatsApp en PDF](https://martincrescenzo-dotcom.github.io/chatexhibit/exporter-conversation-whatsapp-pdf/)
+- [Export Telegram en PDF pour preuve](https://martincrescenzo-dotcom.github.io/chatexhibit/telegram-export-pdf-preuve/)
 - [Legal, terms, privacy](https://martincrescenzo-dotcom.github.io/chatexhibit/legal.html)
