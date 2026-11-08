@@ -20,3 +20,7 @@ Languages: [English](https://martincrescenzo-dotcom.github.io/chatexhibit/) · [
 Not legal advice and not a certification of authenticity. Not affiliated with WhatsApp, Meta, Telegram, LINE, Kakao, Discord, Google or Slack.
 
 Source layout: `src/` (parsers, app, styles), `i18n.js`, `build.js` (generates `docs/`), `test/` (`node test/test.js`). Publisher: EI Crescenzo Martin (French Frogs), Paris.
+
+## Free offline script
+
+[`tools/whatsapp_to_html.py`](tools/) converts a WhatsApp export to printable HTML with Python only, no upload.
